@@ -1,0 +1,20 @@
+version: "3.9"  # Use a recent version of Docker Compose
+
+services:
+  backend:
+    build: .        # Build from the current directory (where Dockerfile is)
+    ports:
+      - "8000:8000"  # Map container port 8000 to host port 8000
+    environment:
+      MISTRAL_API_KEY: zVndWQkVst3KivKwIivW6TgCg1384KLA # Set your API key here!
+    volumes:
+      - ./data:/app/data # Mount a volume for persistent data (optional)
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile_streamlit # Use the Streamlit Dockerfile
+    ports:
+      - "8501:8501"  # Map container port 8501 to host port 8501
+    depends_on:
+      - backend      # Make sure the backend starts first
